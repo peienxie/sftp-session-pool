@@ -1,0 +1,12 @@
+services:
+  sftp:
+    restart: always
+    image: atmoz/sftp
+#    volumes:
+#      - ./test_files/sftp/users.conf:/etc/sftp/users.conf
+#      - ./test_files/sftp/ssh_host_ed25519_key:/etc/ssh/ssh_host_ed25519_key
+#      - ./test_files/sftp/ssh_host_rsa_key:/etc/ssh/ssh_host_rsa_key
+#      - ./test_files/sftp/id_rsa.pub:/home/bar/.ssh/keys/id_rsa.pub
+    ports:
+      - "2222:22"
+    command: user:pass:1001::ftp-root
