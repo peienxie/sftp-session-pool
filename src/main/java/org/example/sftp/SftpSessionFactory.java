@@ -11,7 +11,7 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 
 @Log4j2
 @Setter
-public class SftpSessionObjectFactory extends BaseKeyedPooledObjectFactory<SftpConnectionInfo, Session> {
+public class SftpSessionFactory extends BaseKeyedPooledObjectFactory<SftpConnectionInfo, Session> {
 
     private int connectTimeout = 3_000;
     private int socketTimeout = 3_000;
