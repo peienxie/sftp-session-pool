@@ -9,19 +9,19 @@ import org.apache.commons.pool2.impl.GenericKeyedObjectPool;
 import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 
 @Setter
-public class ObjectPoolFactory<K, V> {
+public class KeyedObjectPoolFactory<K, V> {
 
     private final KeyedPooledObjectFactory<K, V> objectFactory;
     @Delegate
     private final GenericKeyedObjectPoolConfig<V> config;
 
-    public ObjectPoolFactory(KeyedPooledObjectFactory<K, V> objectFactory) {
+    public KeyedObjectPoolFactory(KeyedPooledObjectFactory<K, V> objectFactory) {
         this.objectFactory = objectFactory;
         this.config = new GenericKeyedObjectPoolConfig<>();
     }
 
-    public ObjectPoolFactory(KeyedPooledObjectFactory<K, V> objectFactory,
-                             GenericKeyedObjectPoolConfig<V> config) {
+    public KeyedObjectPoolFactory(KeyedPooledObjectFactory<K, V> objectFactory,
+                                  GenericKeyedObjectPoolConfig<V> config) {
         this.objectFactory = objectFactory;
         this.config = config;
     }

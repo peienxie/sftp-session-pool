@@ -1,7 +1,7 @@
 package org.example.sftp;
 
 import lombok.extern.log4j.Log4j2;
-import org.example.ObjectPoolFactory;
+import org.example.KeyedObjectPoolFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,7 +22,7 @@ public abstract class AbstractSftpPoolTests {
 
     private SftpConnectionInfo connectionInfo;
     private ExecutorService executor;
-    private ObjectPoolFactory<SftpConnectionInfo, ?> poolFactory;
+    private KeyedObjectPoolFactory<SftpConnectionInfo, ?> poolFactory;
     private int runCounts;
 
     @BeforeEach
@@ -33,7 +33,7 @@ public abstract class AbstractSftpPoolTests {
         runCounts = 1000;
     }
 
-    abstract protected ObjectPoolFactory<SftpConnectionInfo, ?> createPoolFactory(int maxSize);
+    abstract protected KeyedObjectPoolFactory<SftpConnectionInfo, ?> createPoolFactory(int maxSize);
 
     @Test
     void testPooling() {

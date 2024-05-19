@@ -1,13 +1,13 @@
 package org.example.sftp;
 
-import org.example.ObjectPoolFactory;
+import org.example.KeyedObjectPoolFactory;
 
 class SftpSessionPoolTest extends AbstractSftpPoolTests {
 
     @Override
-    protected ObjectPoolFactory<SftpConnectionInfo, ?> createPoolFactory(int maxSize) {
+    protected KeyedObjectPoolFactory<SftpConnectionInfo, ?> createPoolFactory(int maxSize) {
         SftpSessionFactory sessionFactory = new SftpSessionFactory();
-        ObjectPoolFactory<SftpConnectionInfo, ?> poolFactory = new ObjectPoolFactory<>(sessionFactory);
+        KeyedObjectPoolFactory<SftpConnectionInfo, ?> poolFactory = new KeyedObjectPoolFactory<>(sessionFactory);
         poolFactory.setMaxTotal(maxSize);
         return poolFactory;
     }
