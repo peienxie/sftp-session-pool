@@ -39,6 +39,7 @@ class SftpSessionPoolTest {
 
         try (var pool = poolFactory.createPool()) {
             List<CompletableFuture<Void>> futures = IntStream.rangeClosed(1, 100)
+                    .parallel()
                     .mapToObj(i -> CompletableFuture.runAsync(() -> {
                         try (var closeable = new PooledObjectCloseable<>(pool, connectionInfo)) {
                             Session session = closeable.getValue();
