@@ -3,11 +3,13 @@ package org.example.sftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.pool2.BaseKeyedPooledObjectFactory;
 import org.apache.commons.pool2.DestroyMode;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 
+@Log4j2
 @Setter
 public class SftpSessionObjectFactory extends BaseKeyedPooledObjectFactory<SftpConnectionInfo, Session> {
 
@@ -21,6 +23,7 @@ public class SftpSessionObjectFactory extends BaseKeyedPooledObjectFactory<SftpC
         session.setPassword(info.password());
         session.setConfig("StrictHostKeyChecking", "no");
         session.setTimeout(socketTimeout);
+        log.debug("creating session to {}:{}", info.host(), info.port());
         session.connect(connectTimeout);
         return session;
     }
