@@ -39,7 +39,7 @@ public class SftpSessionObjectFactory extends BaseKeyedPooledObjectFactory<SftpC
     }
 
     @Override
-    public void destroyObject(SftpConnectionInfo key, PooledObject<Session> p, DestroyMode destroyMode) throws Exception {
+    public void destroyObject(SftpConnectionInfo key, PooledObject<Session> p, DestroyMode destroyMode) {
         p.getObject().disconnect();
     }
 }

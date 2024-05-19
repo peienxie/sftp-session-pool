@@ -5,6 +5,7 @@ import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
 import lombok.Getter;
 import org.apache.commons.pool2.KeyedObjectPool;
+import org.example.ObjectPoolFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,13 +24,13 @@ import static org.awaitility.Awaitility.await;
 class SftpSessionPoolTest {
 
     private SftpConnectionInfo connectionInfo;
-    private SftpSessionPoolFactory poolFactory;
+    private ObjectPoolFactory<SftpConnectionInfo, Session> poolFactory;
     private ExecutorService executor;
 
     @BeforeEach
     void setup() {
         connectionInfo = new SftpConnectionInfo("localhost", 2222, "user", "pass");
-        poolFactory = new SftpSessionPoolFactory(new SftpSessionObjectFactory());
+        poolFactory = new ObjectPoolFactory<>(new SftpSessionObjectFactory());
         poolFactory.setMaxTotal(8);
         executor = Executors.newFixedThreadPool(8);
     }

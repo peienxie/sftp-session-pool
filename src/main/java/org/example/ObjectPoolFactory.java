@@ -1,20 +1,18 @@
-package org.example.sftp;
+package org.example;
 
-import com.jcraft.jsch.Session;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.pool2.KeyedObjectPool;
+import org.apache.commons.pool2.KeyedPooledObjectFactory;
 import org.apache.commons.pool2.PoolUtils;
 import org.apache.commons.pool2.impl.GenericKeyedObjectPool;
 import org.apache.commons.pool2.impl.GenericKeyedObjectPoolConfig;
 
 import java.time.Duration;
 
-@RequiredArgsConstructor
 @Setter
-public class SftpSessionPoolFactory {
+public class ObjectPoolFactory<K, V> {
 
-    private final SftpSessionObjectFactory sessionFactory;
+    private final KeyedPooledObjectFactory<K, V> objectFactory;
     private int maxTotal = 50;
     private int maxTotalPerHost = 10;
     private int minIdlePerHost = 3;
@@ -24,9 +22,12 @@ public class SftpSessionPoolFactory {
     private boolean testOnReturn = true;
     private boolean testWhileIdle = true;
 
+    public ObjectPoolFactory(KeyedPooledObjectFactory<K, V> objectFactory) {
+        this.objectFactory = objectFactory;
+    }
 
-    public KeyedObjectPool<SftpConnectionInfo, Session> createPool() {
-        GenericKeyedObjectPoolConfig<Session> config = new GenericKeyedObjectPoolConfig<>();
+    public KeyedObjectPool<K, V> createPool() {
+        GenericKeyedObjectPoolConfig<V> config = new GenericKeyedObjectPoolConfig<>();
         config.setMaxTotal(maxTotal);
         config.setMaxTotalPerKey(maxTotalPerHost);
         config.setMinIdlePerKey(minIdlePerHost);
@@ -36,7 +37,11 @@ public class SftpSessionPoolFactory {
         config.setTestOnCreate(testOnCreate);
         config.setTestOnReturn(testOnReturn);
         config.setTestWhileIdle(testWhileIdle);
-        return PoolUtils.synchronizedPool(new GenericKeyedObjectPool<>(sessionFactory, config));
+        return this.createPool(config);
+    }
+
+    public KeyedObjectPool<K, V> createPool(GenericKeyedObjectPoolConfig<V> config) {
+        return PoolUtils.synchronizedPool(new GenericKeyedObjectPool<>(objectFactory, config));
     }
 }
 
