@@ -5,10 +5,8 @@ import org.example.KeyedObjectPoolFactory;
 class SftpChannelPoolTest extends AbstractSftpPoolTests {
 
     @Override
-    protected KeyedObjectPoolFactory<SftpConnectionInfo, ?> createPoolFactory(int maxSize) {
+    protected KeyedObjectPoolFactory<SftpConnectionInfo, ?> createPoolFactory() {
         SftpChannelFactory sftpChannelFactory = new SftpChannelFactory();
-        KeyedObjectPoolFactory<SftpConnectionInfo, ?> poolFactory = new KeyedObjectPoolFactory<>(sftpChannelFactory);
-        poolFactory.setMaxTotal(maxSize);
-        return poolFactory;
+        return new KeyedObjectPoolFactory<>(sftpChannelFactory);
     }
 }
